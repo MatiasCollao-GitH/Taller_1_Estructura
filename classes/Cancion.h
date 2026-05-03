@@ -1,0 +1,8 @@
+//
+// Created by Matías Collao on 03-05-2026.
+//
+
+#ifndef TALLER_1_ESTRUCTURA_CANCION_H
+#define TALLER_1_ESTRUCTURA_CANCION_H
+
+#endif //TALLER_1_ESTRUCTURA_CANCION_H
