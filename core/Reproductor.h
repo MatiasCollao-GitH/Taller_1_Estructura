@@ -44,10 +44,30 @@ class Reproductor {
     void guardarConfiguracion();
 
     void cargarConfiguracion();
+
+    void cambiarModoAleatorio();
+
+    void mezclarCola();
+
+    void cambiarModoRepeticion();
+
+    bool getModoAleatorio();
+
+    int getModoRepeticion();
+
+    void mostrarListaReproduccion();
+
+    void saltarACancion(int posicion);
+
+    void agregarCancionAlRegistro(string nombre, string artista, string album, int anio, int duracion, string ruta);
+
+    void eliminarCancionDelRegistro(int posicion);
+
+    void reproducirEspecifica(int posicion);
+
+    void agregarACola(int posicion);
+
 };
-void cargarConfiguracion();
-void guardarConfiguracion();
-Cancion* buscarPorId(int id);
 
 
 #endif //TALLER_1_ESTRUCTURA_REPRODUCTOR_H
