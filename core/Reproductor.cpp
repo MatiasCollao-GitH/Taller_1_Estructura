@@ -122,7 +122,7 @@ void Reproductor::guardarConfiguracion() {
     ListaEnlazada<Cancion> temp;
     while (!colaReproduccion.estaVacia()) {
         Cancion* c = colaReproduccion.desencolar();
-        archivo << c->getId() << " ";
+        archivo << " " << c->getId();
         temp.insertarFinal(c);
     }
     archivo << endl;
@@ -282,4 +282,29 @@ Reproductor::~Reproductor() {
     for (int i = 0; i < listaGeneral.getTamano(); i++) {
         delete listaGeneral.obtener(i);
     }
+}
+
+void Reproductor::reproducirEspecifica(int posicion) {
+    int indice = posicion - 1;
+    if (indice < 0 || indice >= listaGeneral.getTamano()) return;
+
+    cancionActual = listaGeneral.obtener(indice);
+    pausado = false;
+
+    while (!colaReproduccion.estaVacia()) {
+        colaReproduccion.desencolar();
+    }
+
+    for (int i = 0; i < listaGeneral.getTamano(); i++) {
+        colaReproduccion.encolar(listaGeneral.obtener(i));
+    }
+    mezclarCola();
+}
+
+void Reproductor::agregarACola(int posicion) {
+    int indice = posicion - 1;
+    if (indice < 0 || indice >= listaGeneral.getTamano()) return;
+
+    Cancion* seleccionada = listaGeneral.obtener(indice);
+    colaReproduccion.encolar(seleccionada);
 }
