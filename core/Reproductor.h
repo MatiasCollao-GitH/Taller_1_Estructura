@@ -8,12 +8,21 @@
 #include <string>
 
 #include "Cancion.h"
+#include "Cola.h"
+#include "Pila.h"
 #include "../data_structures/ListaEnlazada.h"
 using namespace std;
 
 class Reproductor {
     private:
     ListaEnlazada<Cancion> listaGeneral;
+    Pila<Cancion> historial;
+    Cola<Cancion> colaReproduccion;
+
+    Cancion* cancionActual;
+    bool pausado;
+    int modoReproduccion; //0 1 2
+
 
     bool modoAleatorio;
     int modoRepeticion;
@@ -21,10 +30,14 @@ class Reproductor {
 
     public:
     Reproductor();
-
     void cargarCanciones();
     void mostrarTodasLasCanciones();
 
+    void reproducirPausar();
+    void siguientePista();
+    void anteriorPista();
+    Cancion* getCancionActual();
+    bool estaPausado();
 };
 
 

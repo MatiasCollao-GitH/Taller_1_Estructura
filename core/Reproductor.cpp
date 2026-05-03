@@ -12,6 +12,9 @@ Reproductor::Reproductor() {
     this->modoAleatorio = false;
     this->modoRepeticion = 0;
     this->estaReproduciendo = false;
+    cancionActual = nullptr;
+    pausado = true;
+    modoRepeticion = 0;
 }
 
 void Reproductor::cargarCanciones() {
@@ -56,6 +59,34 @@ void Reproductor::mostrarTodasLasCanciones() {
         cout << c->getId() << ". " << c->getNombre() << " - " << c->getArtista() << endl;
     }
 }
+void Reproductor::reproducirPausar() {
+    if (cancionActual == nullptr && listaGeneral.getTamano() > 0) {
+        cancionActual = listaGeneral.obtener(0);
+    }
+    pausado = !pausado;
+}
+
+void Reproductor::siguientePista() {
+    if (cancionActual != nullptr) {
+        historial.apilar(cancionActual);
+    }
+
+    if (!colaReproduccion.estaVacia()) {
+        cancionActual = colaReproduccion.desencolar();
+    } else {
+        cout << "No hay mas canciones en la cola." << endl;
+    }
+}
+void Reproductor::anteriorPista() {
+    if (!historial.estaVacia()) {
+        cancionActual = historial.desapilar();
+    } else {
+        cout << "No hay historial para retroceder." << endl;
+    }
+}
+
+Cancion* Reproductor::getCancionActual() {return cancionActual; }
+bool Reproductor::estaPausado() { return pausado;}
 
 
 

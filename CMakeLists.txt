@@ -11,4 +11,6 @@ add_executable(Taller_1_Estructura main.cpp
         core/Reproductor.h
         core/Reproductor.cpp
         data_structures/Nodo.h
-        data_structures/ListaEnlazada.h)
+        data_structures/ListaEnlazada.h
+        data_structures/Pila.h
+        data_structures/Cola.h)
