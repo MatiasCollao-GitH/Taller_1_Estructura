@@ -1,0 +1,10 @@
+# CLion y CMake
+cmake-build-debug/
+cmake-build-release/
+.idea/
+
+# Archivos de sistema y ejecutables
+*.exe
+*.o
+*.out
+status.cfg

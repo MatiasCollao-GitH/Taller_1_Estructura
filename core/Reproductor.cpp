@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 Reproductor::Reproductor() {
@@ -161,8 +163,30 @@ void Reproductor::cambiarModoAleatorio() {
 void Reproductor::mezclarCola() {
     if (colaReproduccion.estaVacia()) return;
     int n = 0;
-    srand(time(0));
+    ListaEnlazada<Cancion> temp;
+    while (!colaReproduccion.estaVacia()) {
+        temp.insertarFinal(colaReproduccion.desencolar());
+        n++;
+    }
 
+    Cancion** arreglo = new Cancion*[n];
+    for (int i = 0; i < n; i++) {
+        arreglo[i] = temp.obtener(i);
+    }
+
+    srand(time(0));
+    for (int i = n - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        Cancion* aux = arreglo[i];
+        arreglo[i] = arreglo[j];
+        arreglo[j] = aux;
+    }
+
+    for (int i = 0; i < n; i++) {
+        colaReproduccion.encolar(arreglo[i]);
+    }
+
+    delete[] arreglo;
 }
 
 void Reproductor::cambiarModoRepeticion() {
@@ -180,12 +204,25 @@ int Reproductor::getModoRepeticion() {
 void Reproductor::mostrarListaReproduccion() {
     cout << "Actual (" << (modoAleatorio ? "S-" : "")
          << (modoRepeticion == 1 ? "R1" : (modoRepeticion == 2 ? "RA" : ""))
-         << "): " << (cancionActual ? cancionActual->getNombre() : "Ninguna") << endl;
+         << "): " << (cancionActual ? cancionActual->getNombre() : "Vacía") << endl;
 
     cout << "Lista de reproducción actual:" << endl;
+
     if (colaReproduccion.estaVacia()) {
         cout << "Vacía" << endl;
     } else {
+        ListaEnlazada<Cancion> temp;
+        int i = 1;
+        while (!colaReproduccion.estaVacia()) {
+            Cancion* c = colaReproduccion.desencolar();
+            cout << i << ". " << c->getNombre() << " - " << c->getArtista() << endl;
+            temp.insertarFinal(c);
+            i++;
+        }
+
+        for (int j = 0; j < temp.getTamano(); j++) {
+            colaReproduccion.encolar(temp.obtener(j));
+        }
     }
 }
 
@@ -213,4 +250,19 @@ void Reproductor::eliminarCancionDelRegistro(int posicion) {
                 << c->getRuta() << endl;
     }
     archivo.close();
+}
+
+void Reproductor::saltarACancion(int posicion) {
+    for (int i = 1; i < posicion; i++) {
+        if (!colaReproduccion.estaVacia()) {
+            colaReproduccion.desencolar();
+        }
+    }
+    siguientePista();
+}
+
+Reproductor::~Reproductor() {
+    for (int i = 0; i < listaGeneral.getTamano(); i++) {
+        delete listaGeneral.obtener(i);
+    }
 }

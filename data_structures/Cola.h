@@ -35,6 +35,15 @@ public:
     }
 
     bool estaVacia() { return frente == nullptr; }
+
+    ~Cola() {
+        while (frente != nullptr) {
+            Nodo<T>* aux = frente;
+            frente = frente->siguiente;
+            delete aux;
+        }
+        final = nullptr;
+    }
 };
 
 

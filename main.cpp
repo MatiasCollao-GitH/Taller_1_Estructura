@@ -75,6 +75,27 @@ int main() {
                 miReproductor.cambiarModoRepeticion();
                 miReproductor.guardarConfiguracion();
                 break;
+            case 'A': {
+                bool enSubmenu = true;
+                while (enSubmenu) {
+                    limpiarPantalla();
+                    miReproductor.mostrarListaActual();
+                    cout << "\nOpciones:\nS<num> Saltar a la canción seleccionada\nV Volver al menú principal" << endl;
+                    cout << "Ingrese Opción: ";
+                    string comando;
+                    cin >> comando;
+
+                    char subOpcion = toupper(comando[0]);
+                    if (subOpcion == 'S' && comando.length() > 1) {
+                        int num = stoi(comando.substr(1));
+                        miReproductor.saltarACancion(num);
+                        enSubmenu = false;
+                    } else if (subOpcion == 'V') {
+                        enSubmenu = false;
+                    }
+                }
+                break;
+            }
             case 'L': {
                 limpiarPantalla();
                 miReproductor.mostrarTodasLasCanciones();
@@ -95,6 +116,7 @@ int main() {
                     miReproductor.eliminarCancionDelRegistro(num);
                 }
                 break;
+            }
             case 'X':
                 ejecutar = false;
                 cout << "Guardando y Saliendo..." << endl;
@@ -102,6 +124,7 @@ int main() {
             default:
                 cout << "Opción no valida" << endl;
                 break;
+
         }
     }
 
@@ -111,4 +134,4 @@ int main() {
 
 
     return 0;
-}
+};

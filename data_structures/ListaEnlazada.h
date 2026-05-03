@@ -30,7 +30,6 @@ class ListaEnlazada {
             actual->siguiente = nuevoNodo;
         }
         tamano++;
-
     }
     int getTamano() {
         return tamano;
@@ -43,6 +42,15 @@ class ListaEnlazada {
             actual = actual->siguiente;
         }
         return actual->dato;
+    }
+    ~ListaEnlazada() {
+        Nodo<T>* actual = cabeza;
+        while (actual != nullptr) {
+            Nodo<T>* siguiente = actual->siguiente;
+            delete actual;
+            actual = siguiente;
+        }
+        cabeza = nullptr;
     }
 
 };

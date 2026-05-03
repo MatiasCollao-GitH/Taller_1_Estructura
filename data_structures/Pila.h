@@ -29,6 +29,14 @@ public:
     }
 
     bool estaVacia() { return tope == nullptr; }
+
+    ~Pila() {
+        while (tope != nullptr) {
+            Nodo<T>* aux = tope;
+            tope = tope->siguiente;
+            delete aux;
+        }
+    }
 };
 
 

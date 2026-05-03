@@ -67,6 +67,10 @@ class Reproductor {
 
     void agregarACola(int posicion);
 
+    void mostrarListaActual();
+
+    ~Reproductor();
+
 };
 
 
