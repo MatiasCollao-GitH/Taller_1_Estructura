@@ -38,8 +38,16 @@ class Reproductor {
     void anteriorPista();
     Cancion* getCancionActual();
     bool estaPausado();
-};
 
+    Cancion *buscarPorId(int id);
+
+    void guardarConfiguracion();
+
+    void cargarConfiguracion();
+};
+void cargarConfiguracion();
+void guardarConfiguracion();
+Cancion* buscarPorId(int id);
 
 
 #endif //TALLER_1_ESTRUCTURA_REPRODUCTOR_H

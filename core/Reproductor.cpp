@@ -88,5 +88,57 @@ void Reproductor::anteriorPista() {
 Cancion* Reproductor::getCancionActual() {return cancionActual; }
 bool Reproductor::estaPausado() { return pausado;}
 
+Cancion* Reproductor::buscarPorId(int id) {
+    for (int i = 0; i < listaGeneral.getTamano(); i++) {
+        if (listaGeneral.obtener(i)->getId() == id) {
+            return listaGeneral.obtener(i);
+        }
+    }
+    return nullptr;
+}
+void Reproductor::guardarConfiguracion() {
+    ofstream archivo("status.cfg");
+    if (!archivo.is_open()) return;
+
+    archivo << "ID_ACTUAL " << (cancionActual ? cancionActual->getId() : -1) << endl;
+    archivo << "MODO_PAUSA " << (pausado ? 1 : 0) << endl;
+    archivo << "ALEATORIO " << (modoAleatorio ? 1 : 0) << endl;
+    archivo << "REPETICION " << modoRepeticion << endl;
+    archivo << "PENDIENTES ";
+    archivo << endl;
+
+    archivo.close();
+}
+
+void Reproductor::cargarConfiguracion() {
+    ifstream archivo("status.cfg");
+    if (!archivo.is_open()) {
+        this->cancionActual = nullptr;
+        this->pausado = true;
+        this->modoAleatorio = false;
+        this->modoRepeticion = 0;
+        return;
+    }
+
+    string parametro;
+    while (archivo >> parametro) {
+        if (parametro == "ID_ACTUAL") {
+            int id;
+            archivo >> id;
+            this->cancionActual = buscarPorId(id);
+        } else if (parametro == "MODO_PAUSA") {
+            int p;
+            archivo >> p;
+            this->pausado = (p == 1);
+        } else if (parametro == "ALEATORIO") {
+            int a;
+            archivo >> a;
+            this->modoAleatorio = (a == 1);
+        } else if (parametro == "REPETICION") {
+            archivo >> this->modoRepeticion;
+        }
+    }
+    archivo.close();
+}
 
 
