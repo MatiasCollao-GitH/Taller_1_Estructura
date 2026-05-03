@@ -6,16 +6,17 @@
 #define TALLER_1_ESTRUCTURA_COLA_H
 #include "Nodo.h"
 
-template <typename T>
+template<typename T>
 class Cola {
 private:
-    Nodo<T>* frente;
-    Nodo<T>* final;
+    Nodo<T> *frente;
+    Nodo<T> *final;
+
 public:
     Cola() { frente = final = nullptr; }
 
-    void encolar(T* dato) {
-        Nodo<T>* nuevo = new Nodo<T>(dato);
+    void encolar(T *dato) {
+        Nodo<T> *nuevo = new Nodo<T>(dato);
         if (final == nullptr) {
             frente = final = nuevo;
             return;
@@ -24,10 +25,10 @@ public:
         final = nuevo;
     }
 
-    T* desencolar() {
+    T *desencolar() {
         if (frente == nullptr) return nullptr;
-        Nodo<T>* aux = frente;
-        T* dato = aux->dato;
+        Nodo<T> *aux = frente;
+        T *dato = aux->dato;
         frente = frente->siguiente;
         if (frente == nullptr) final = nullptr;
         delete aux;
@@ -38,14 +39,13 @@ public:
 
     ~Cola() {
         while (frente != nullptr) {
-            Nodo<T>* aux = frente;
+            Nodo<T> *aux = frente;
             frente = frente->siguiente;
             delete aux;
         }
         final = nullptr;
     }
 };
-
 
 
 #endif //TALLER_1_ESTRUCTURA_COLA_H

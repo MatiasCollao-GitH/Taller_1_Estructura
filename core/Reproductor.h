@@ -14,29 +14,35 @@
 using namespace std;
 
 class Reproductor {
-    private:
+private:
     ListaEnlazada<Cancion> listaGeneral;
     Pila<Cancion> historial;
     Cola<Cancion> colaReproduccion;
 
-    Cancion* cancionActual;
+    Cancion *cancionActual;
     bool pausado;
-    int modoReproduccion; //0 1 2
+    int modoReproduccion;
 
 
     bool modoAleatorio;
     int modoRepeticion;
     bool estaReproduciendo;
 
-    public:
+public:
     Reproductor();
+
     void cargarCanciones();
+
     void mostrarTodasLasCanciones();
 
     void reproducirPausar();
+
     void siguientePista();
+
     void anteriorPista();
-    Cancion* getCancionActual();
+
+    Cancion *getCancionActual();
+
     bool estaPausado();
 
     Cancion *buscarPorId(int id);
@@ -70,7 +76,6 @@ class Reproductor {
     void mostrarListaActual();
 
     ~Reproductor();
-
 };
 
 

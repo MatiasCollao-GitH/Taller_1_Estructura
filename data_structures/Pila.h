@@ -6,23 +6,24 @@
 #define TALLER_1_ESTRUCTURA_PILA_H
 #include "Nodo.h"
 
-template <typename T>
+template<typename T>
 class Pila {
 private:
-    Nodo<T>* tope;
+    Nodo<T> *tope;
+
 public:
     Pila() { tope = nullptr; }
 
-    void apilar(T* dato) {
-        Nodo<T>* nuevo = new Nodo<T>(dato);
+    void apilar(T *dato) {
+        Nodo<T> *nuevo = new Nodo<T>(dato);
         nuevo->siguiente = tope;
         tope = nuevo;
     }
 
-    T* desapilar() {
+    T *desapilar() {
         if (tope == nullptr) return nullptr;
-        Nodo<T>* aux = tope;
-        T* dato = aux->dato;
+        Nodo<T> *aux = tope;
+        T *dato = aux->dato;
         tope = tope->siguiente;
         delete aux;
         return dato;
@@ -32,7 +33,7 @@ public:
 
     ~Pila() {
         while (tope != nullptr) {
-            Nodo<T>* aux = tope;
+            Nodo<T> *aux = tope;
             tope = tope->siguiente;
             delete aux;
         }

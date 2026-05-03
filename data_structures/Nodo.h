@@ -5,19 +5,17 @@
 #ifndef TALLER_1_ESTRUCTURA_NODO_H
 #define TALLER_1_ESTRUCTURA_NODO_H
 
-template <typename T>
+template<typename T>
 class Nodo {
 public:
-    T* dato;
-    Nodo<T>* siguiente;
+    T *dato;
+    Nodo<T> *siguiente;
 
-    Nodo(T* nuevoDato) {
+    Nodo(T *nuevoDato) {
         this->dato = nuevoDato;
         this->siguiente = nullptr;
     }
 };
-
-
 
 
 #endif //TALLER_1_ESTRUCTURA_NODO_H

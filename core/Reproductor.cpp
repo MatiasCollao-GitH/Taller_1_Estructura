@@ -44,23 +44,22 @@ void Reproductor::cargarCanciones() {
         int anio = stoi(anio_str);
         int duracion = stoi(duracion_str);
 
-        Cancion* nuevaCancion = new Cancion(id, nombre, artista, album, anio, duracion, ruta);
+        Cancion *nuevaCancion = new Cancion(id, nombre, artista, album, anio, duracion, ruta);
 
         listaGeneral.insertarFinal(nuevaCancion);
     }
 
     archivo.close();
     cout << "Se cargaron " << listaGeneral.getTamano() << " canciones correctamente" << endl;
-
-
 }
 
 void Reproductor::mostrarTodasLasCanciones() {
     for (int i = 0; i < listaGeneral.getTamano(); i++) {
-        Cancion* c = listaGeneral.obtener(i);
+        Cancion *c = listaGeneral.obtener(i);
         cout << c->getId() << ". " << c->getNombre() << " - " << c->getArtista() << endl;
     }
 }
+
 void Reproductor::reproducirPausar() {
     if (cancionActual == nullptr && listaGeneral.getTamano() > 0) {
         cancionActual = listaGeneral.obtener(0);
@@ -89,6 +88,7 @@ void Reproductor::siguientePista() {
         }
     }
 }
+
 void Reproductor::anteriorPista() {
     if (!historial.estaVacia()) {
         cancionActual = historial.desapilar();
@@ -97,10 +97,10 @@ void Reproductor::anteriorPista() {
     }
 }
 
-Cancion* Reproductor::getCancionActual() {return cancionActual; }
-bool Reproductor::estaPausado() { return pausado;}
+Cancion *Reproductor::getCancionActual() { return cancionActual; }
+bool Reproductor::estaPausado() { return pausado; }
 
-Cancion* Reproductor::buscarPorId(int id) {
+Cancion *Reproductor::buscarPorId(int id) {
     for (int i = 0; i < listaGeneral.getTamano(); i++) {
         if (listaGeneral.obtener(i)->getId() == id) {
             return listaGeneral.obtener(i);
@@ -108,6 +108,7 @@ Cancion* Reproductor::buscarPorId(int id) {
     }
     return nullptr;
 }
+
 void Reproductor::guardarConfiguracion() {
     ofstream archivo("status.cfg");
     if (!archivo.is_open()) return;
@@ -117,7 +118,18 @@ void Reproductor::guardarConfiguracion() {
     archivo << "ALEATORIO " << (modoAleatorio ? 1 : 0) << endl;
     archivo << "REPETICION " << modoRepeticion << endl;
     archivo << "PENDIENTES ";
+
+    ListaEnlazada<Cancion> temp;
+    while (!colaReproduccion.estaVacia()) {
+        Cancion* c = colaReproduccion.desencolar();
+        archivo << c->getId() << " ";
+        temp.insertarFinal(c);
+    }
     archivo << endl;
+
+    for (int j = 0; j < temp.getTamano(); j++) {
+        colaReproduccion.encolar(temp.obtener(j));
+    }
 
     archivo.close();
 }
@@ -169,7 +181,7 @@ void Reproductor::mezclarCola() {
         n++;
     }
 
-    Cancion** arreglo = new Cancion*[n];
+    Cancion **arreglo = new Cancion *[n];
     for (int i = 0; i < n; i++) {
         arreglo[i] = temp.obtener(i);
     }
@@ -177,7 +189,7 @@ void Reproductor::mezclarCola() {
     srand(time(0));
     for (int i = n - 1; i > 0; i--) {
         int j = rand() % (i + 1);
-        Cancion* aux = arreglo[i];
+        Cancion *aux = arreglo[i];
         arreglo[i] = arreglo[j];
         arreglo[j] = aux;
     }
@@ -201,10 +213,10 @@ int Reproductor::getModoRepeticion() {
     return this->modoRepeticion;
 }
 
-void Reproductor::mostrarListaReproduccion() {
+void Reproductor::mostrarListaActual() {
     cout << "Actual (" << (modoAleatorio ? "S-" : "")
-         << (modoRepeticion == 1 ? "R1" : (modoRepeticion == 2 ? "RA" : ""))
-         << "): " << (cancionActual ? cancionActual->getNombre() : "Vacía") << endl;
+            << (modoRepeticion == 1 ? "R1" : (modoRepeticion == 2 ? "RA" : ""))
+            << "): " << (cancionActual ? cancionActual->getNombre() : "Vacía") << endl;
 
     cout << "Lista de reproducción actual:" << endl;
 
@@ -214,7 +226,7 @@ void Reproductor::mostrarListaReproduccion() {
         ListaEnlazada<Cancion> temp;
         int i = 1;
         while (!colaReproduccion.estaVacia()) {
-            Cancion* c = colaReproduccion.desencolar();
+            Cancion *c = colaReproduccion.desencolar();
             cout << i << ". " << c->getNombre() << " - " << c->getArtista() << endl;
             temp.insertarFinal(c);
             i++;
@@ -226,9 +238,10 @@ void Reproductor::mostrarListaReproduccion() {
     }
 }
 
-void Reproductor::agregarCancionAlRegistro(string nombre, string artista, string album, int ano, int duracion, string ruta) {
+void Reproductor::agregarCancionAlRegistro(string nombre, string artista, string album, int ano, int duracion,
+                                           string ruta) {
     int nuevoId = listaGeneral.getTamano() + 1;
-    Cancion* nueva = new Cancion(nuevoId, nombre, artista, album, ano, duracion, ruta);
+    Cancion *nueva = new Cancion(nuevoId, nombre, artista, album, ano, duracion, ruta);
     listaGeneral.insertarFinal(nueva);
 
     ofstream archivo("music_source.txt", ios::app);
@@ -242,6 +255,10 @@ void Reproductor::agregarCancionAlRegistro(string nombre, string artista, string
 void Reproductor::eliminarCancionDelRegistro(int posicion) {
     int indice = posicion - 1;
     if (indice < 0 || indice >= listaGeneral.getTamano()) return;
+
+    delete listaGeneral.obtener(indice);
+    listaGeneral.eliminar(indice);
+
     ofstream archivo("music_source.txt");
     for (int i = 0; i < listaGeneral.getTamano(); i++) {
         Cancion* c = listaGeneral.obtener(i);

@@ -6,24 +6,25 @@
 #define TALLER_1_ESTRUCTURA_LISTAENLAZADA_H
 #include "Nodo.h"
 
-template <typename T>
+template<typename T>
 class ListaEnlazada {
-    private:
-    Nodo<T>* cabeza;
+private:
+    Nodo<T> *cabeza;
     int tamano;
 
-    public:
+public:
     ListaEnlazada() {
         cabeza = nullptr;
         tamano = 0;
     }
-    void insertarFinal(T* nuevoDato) {
-        Nodo<T>* nuevoNodo = new Nodo<T>(nuevoDato);
+
+    void insertarFinal(T *nuevoDato) {
+        Nodo<T> *nuevoNodo = new Nodo<T>(nuevoDato);
 
         if (cabeza == nullptr) {
             cabeza = nuevoNodo;
         } else {
-            Nodo<T>* actual = cabeza;
+            Nodo<T> *actual = cabeza;
             while (actual->siguiente != nullptr) {
                 actual = actual->siguiente;
             }
@@ -31,30 +32,51 @@ class ListaEnlazada {
         }
         tamano++;
     }
+
     int getTamano() {
         return tamano;
     }
-    T* obtener(int indice) {
+
+    T *obtener(int indice) {
         if (indice < 0 || indice >= tamano) return nullptr;
 
-        Nodo<T>* actual = cabeza;
+        Nodo<T> *actual = cabeza;
         for (int i = 0; i < indice; i++) {
             actual = actual->siguiente;
         }
         return actual->dato;
     }
+
     ~ListaEnlazada() {
-        Nodo<T>* actual = cabeza;
+        Nodo<T> *actual = cabeza;
         while (actual != nullptr) {
-            Nodo<T>* siguiente = actual->siguiente;
+            Nodo<T> *siguiente = actual->siguiente;
             delete actual;
             actual = siguiente;
         }
         cabeza = nullptr;
     }
+    void eliminar(int indice) {
+        if (indice < 0 || indice >= tamano || cabeza == nullptr) return;
 
+        Nodo<T>* aEliminar = nullptr;
+
+        if (indice == 0) {
+            aEliminar = cabeza;
+            cabeza = cabeza->siguiente;
+        } else {
+            Nodo<T>* anterior = cabeza;
+            for (int i = 0; i < indice - 1; i++) {
+                anterior = anterior->siguiente;
+            }
+            aEliminar = anterior->siguiente;
+            anterior->siguiente = aEliminar->siguiente;
+        }
+
+        delete aEliminar;
+        tamano--;
+    }
 };
-
 
 
 #endif //TALLER_1_ESTRUCTURA_LISTAENLAZADA_H

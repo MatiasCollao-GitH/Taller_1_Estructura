@@ -1,3 +1,5 @@
+//Matías Collao Valdivia 220601528
+//
 #include <iostream>
 
 #include "Reproductor.h"
@@ -11,10 +13,11 @@ void limpiarPantalla() {
 #endif
 }
 
-void mostrarMenu(Reproductor& miRepo) {
+
+void mostrarMenu(Reproductor &miRepo) {
     limpiarPantalla();
 
-    Cancion* actual = miRepo.getCancionActual();
+    Cancion *actual = miRepo.getCancionActual();
 
     cout << "========================================" << endl;
     if (actual != nullptr) {
@@ -36,6 +39,10 @@ void mostrarMenu(Reproductor& miRepo) {
     cout << "W - Reproducir/Pausar" << endl;
     cout << "Q - Pista Anterior" << endl;
     cout << "E - Pista Siguiente" << endl;
+    cout << "S - Activar/Desactivar modo aleatorio" << endl;
+    cout << "R - Repetición (Desactivado/Repetir una/Repetir todas)" << endl;
+    cout << "A - Ver lista de reproducción actual" << endl;
+    cout << "L - Listado de canciones" << endl;
     cout << "X - Salir" << endl;
     cout << "----------------------------------------" << endl;
     cout << "Ingrese Opcion: ";
@@ -99,7 +106,8 @@ int main() {
             case 'L': {
                 limpiarPantalla();
                 miReproductor.mostrarTodasLasCanciones();
-                cout << "\nOpciones: R<num> Reproducir, A<num> Agregar al final, N Nuevo, D<num> Eliminar, V Volver" << endl;
+                cout << "\nOpciones: R<num> Reproducir, A<num> Agregar al final, N Nuevo, D<num> Eliminar, V Volver" <<
+                        endl;
                 cout << "Ingrese comando (ej: R1 o N): ";
                 string comando;
                 cin >> comando;
@@ -108,9 +116,19 @@ int main() {
                 if (subOpcion == 'N') {
                     string n, art, alb, rut;
                     int an, dur;
-                    cout << "Nombre: "; cin.ignore(); getline(cin, n);
+
+                    cin.ignore();
+                    cout << "Nombre: "; getline(cin, n);
                     cout << "Artista: "; getline(cin, art);
+                    cout << "Album: "; getline(cin, alb);
+                    cout << "Ano: "; cin >> an;
+                    cout << "Duracion (seg): "; cin >> dur;
+                    cin.ignore();
+                    cout << "Ruta del archivo: "; getline(cin, rut);
+
                     miReproductor.agregarCancionAlRegistro(n, art, alb, an, dur, rut);
+                    cout << "\nCancion agregada con exito!" << endl;
+                    system("pause");
                 } else if (subOpcion == 'D') {
                     int num = stoi(comando.substr(1));
                     miReproductor.eliminarCancionDelRegistro(num);
@@ -124,14 +142,9 @@ int main() {
             default:
                 cout << "Opción no valida" << endl;
                 break;
-
         }
     }
 
 
-
-
-
-
     return 0;
-};
+}

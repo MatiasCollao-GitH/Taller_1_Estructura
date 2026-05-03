@@ -13,21 +13,12 @@ Cancion::Cancion(int id, string nombre, string artista, string album, int ano, i
     this->ano = ano;
     this->duracion = duracion;
     this->ruta = ruta;
-
 }
 
-int Cancion::getId() {return id;}
-string Cancion::getNombre() {return nombre;}
-string Cancion::getArtista() {return artista;}
-string Cancion::getAlbum() {return album;}
-int Cancion::getAno() {return ano;}
-int Cancion::getDuracion() {return duracion;}
-string Cancion::getRuta() {return ruta;}
-
-
-
-
-
-
-
-
+int Cancion::getId() { return id; }
+string Cancion::getNombre() { return nombre; }
+string Cancion::getArtista() { return artista; }
+string Cancion::getAlbum() { return album; }
+int Cancion::getAno() { return ano; }
+int Cancion::getDuracion() { return duracion; }
+string Cancion::getRuta() { return ruta; }
